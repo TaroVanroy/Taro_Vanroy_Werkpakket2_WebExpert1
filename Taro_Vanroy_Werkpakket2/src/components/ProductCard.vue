@@ -1,0 +1,319 @@
+<script>
+import jsonData from "@/assets/data.json";
+import { useShopStore } from '@/store/shop.js';
+
+
+export default {
+  data() {
+    return {
+      products: jsonData,
+      filteredProducts: jsonData,
+
+      itemsPerPage: 4,
+      currentPage: 1,
+      checkedFilters: {
+        yearFilter1980to1990: false,
+        yearFilter1990to2000: false,
+        yearFilter2000plus: false,
+        companyFilterNintendo: false,
+        companyFilterSega: false,
+        companyFilterSony: false,
+        companyFilterOther: false,
+      },
+      "titel1": "Jaar van uitgave",
+      "titel2": "Bedrijf",
+      "filter1": "1980-1990",
+      "filter2": "1990-2000",
+      "filter3": "2000+",
+      "filter4": "Nintendo",
+      "filter5": "Sega",
+      "filter6": "Sony",
+      "filter7": "Andere",
+      "button1": "Add to cart",
+      "button2": "Terug",
+      "button3": "Volgende",
+    };
+  },
+  computed: {
+    paginatedProducts() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      const sortedProducts = [...this.filteredProducts].sort((a, b) => a.id - b.id);
+      return sortedProducts.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+    },
+  },
+  watch: {
+    checkedFilters: {
+      handler: "applyFilters",
+      deep: true,
+    },
+  },
+  methods: {
+    getStockText(stock) {
+      return `Stock: ${stock}`;
+    },
+    nextPage() {
+      if (this.currentPage === this.totalPages) {
+        this.currentPage = 1;
+      } else {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage === 1) {
+        this.currentPage = this.totalPages;
+      } else {
+        this.currentPage--;
+      }
+    },
+    filterByReleaseYear(minYear, maxYear) {
+      this.checkedFilters.yearFilter1980to1990 = minYear === 1980 && maxYear === 1990;
+      this.checkedFilters.yearFilter1990to2000 = minYear === 1990 && maxYear === 2000;
+      this.checkedFilters.yearFilter2000plus = minYear === 2000 && maxYear === Infinity;
+    },
+    filterByCompany(company) {
+      this.checkedFilters.companyFilterNintendo = company === 'Nintendo';
+      this.checkedFilters.companyFilterSega = company === 'Sega';
+      this.checkedFilters.companyFilterSony = company === 'Sony';
+      this.checkedFilters.companyFilterOther = company === 'Other';
+    },
+    applyFilters() {
+      this.filteredProducts = this.products.filter(product => {
+        const meetsYearFilter = (
+            (!this.checkedFilters.yearFilter1980to1990 || (product.release_year >= 1980 && product.release_year <= 1990)) &&
+            (!this.checkedFilters.yearFilter1990to2000 || (product.release_year > 1990 && product.release_year <= 2000)) &&
+            (!this.checkedFilters.yearFilter2000plus || product.release_year > 2000)
+        );
+
+        const meetsCompanyFilter = (
+            (!this.checkedFilters.companyFilterNintendo || product.creator === 'Nintendo') &&
+            (!this.checkedFilters.companyFilterSega || product.creator === 'Sega') &&
+            (!this.checkedFilters.companyFilterSony || product.creator === 'Sony') &&
+            (!this.checkedFilters.companyFilterOther || !['Nintendo', 'Sega', 'Sony'].includes(product.creator))
+        );
+
+        return meetsYearFilter && meetsCompanyFilter;
+      });
+
+      this.currentPage = 1;
+    },
+    addToCart(product) {
+
+      useShopStore().addToCart(product);
+      alert("product toegevoegd aan winkelmandje!");
+    },
+
+
+  }
+};
+</script>
+
+<template>
+  <div class="page-container">
+    <div class="filter-container">
+      <div class="filter-section">
+        <h2>{{ titel1 }}</h2>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.yearFilter1980to1990" @change="filterByReleaseYear(1980, 1990)" />
+          {{ filter1 }}
+        </label>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.yearFilter1990to2000" @change="filterByReleaseYear(1990, 2000)" />
+          {{ filter2 }}
+        </label>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.yearFilter2000plus" @change="filterByReleaseYear(2000, Infinity)" />
+          {{ filter3 }}
+        </label>
+      </div>
+      <div class="filter-section">
+        <h2>{{ titel2 }}</h2>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.companyFilterNintendo" @change="filterByCompany('Nintendo')" />
+          {{ filter4 }}
+        </label>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.companyFilterSega" @change="filterByCompany('Sega')" />
+          {{ filter5 }}
+        </label>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.companyFilterSony" @change="filterByCompany('Sony')" />
+          {{ filter6 }}
+        </label>
+        <label>
+          <input type="checkbox" :checked="checkedFilters.companyFilterOther" @change="filterByCompany('Other')" />
+          {{ filter7 }}
+        </label>
+      </div>
+    </div>
+    <div class="product-container">
+      <ul class="product-lijst">
+        <li v-for="(product) in paginatedProducts" :key="product.id" class="product-item">
+          <div class="product-info">
+            <router-link :to="{ name: 'product-detail', params: { id: product.id } }">
+              <img :src="product.image" alt="Product Image" class="product-image"/></router-link>
+            <div class="product-details">
+              <p>{{ product.name }}</p>
+              <p class="stock">{{ getStockText(product.stock) }}</p>
+              <p class="price">${{ product.price.toFixed(2) }}</p>
+              <button @click="addToCart(product)" class="add-to-cart-button">{{ button1 }}</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="pagination-buttons">
+        <button @click="prevPage" class="terug">{{ button2 }}</button>
+        <button @click="nextPage" class="volgende">{{ button3 }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quantity Popup -->
+
+
+</template>
+
+<style>
+.page-container {
+  display: flex;
+}
+
+.filter-container {
+  width: 40%;
+  margin-top: 300px;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  color: #718cfe;
+  margin-left: 175px;
+  font-size: 30px;
+}
+
+.product-container {
+  width: 60%;
+  padding-left: 20px;
+}
+
+.product-lijst {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.product-item {
+  width: 48%;
+  margin-bottom: 20px;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.product-image {
+  width: 300px;
+  height: 300px;
+  border: 5px solid #b95ced;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.product-details {
+  max-width: 200px;
+  padding-top: 1.5rem;
+  color: #718cfe;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.stock {
+  padding-top: 1rem;
+}
+
+.pagination-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-buttons button {
+  margin-right: 10px;
+  width: 15rem;
+  height: 3rem;
+  color: white;
+  background: rgb(188, 91, 237);
+  background: linear-gradient(270deg, rgba(188, 91, 237, 1) 0%, rgba(112, 141, 255, 1) 100%, rgba(2, 0, 36, 1) 202124%);
+  border: 0;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.add-to-cart-button
+{
+  width: 8rem;
+  height: 3rem;
+  color: white;
+  background: rgb(188, 91, 237);
+  background: linear-gradient(270deg, rgba(188, 91, 237, 1) 0%, rgba(112, 141, 255, 1) 100%, rgba(2, 0, 36, 1) 202124%);
+  border: 0;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 600px)
+{
+  .filter-container {
+    width: 100%;
+    margin-top: 50px;
+    margin-left: -85px;
+    text-align: center;
+  }
+
+  .filter-section
+  {
+    font-size: 25px;
+  }
+
+  .product-container
+  {
+    width: 70%;
+    margin-left: 30%;
+
+  }
+
+  .page-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+.pagination-buttons
+{
+  margin-right: 50%;
+  flex-direction: column;
+
+}
+
+
+
+  .pagination-buttons button
+  {
+    margin-top: 16px;
+    margin-left: -40%;
+  }
+
+}
+</style>
