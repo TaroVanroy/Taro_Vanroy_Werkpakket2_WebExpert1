@@ -11,7 +11,7 @@
       <p class="creator">{{ Bedrijf }} {{ product.creator }}</p>
       <p class="release-year">{{ Jaar }} {{ product.release_year }}</p><br>
       <button @click="addToCart(product)" class="add-to-cart-button" id="button2">{{ Button1 }}</button>
-      <router-link :to="{ name: 'product-list' }" class="back-button">{{ Button2 }}</router-link>
+      <router-link :to="{ name: 'product-list' }" class="back-button"><button>{{ Button2 }}</button></router-link>
     </div>
   </div>
   <div v-else>
@@ -65,8 +65,6 @@ export default {
     },
     addToCart(product) {
       useShopStore().addToCart(product);
-      alert("product toegevoegd aan winkelmandje!");
-
     },
   },
   watch: {},
