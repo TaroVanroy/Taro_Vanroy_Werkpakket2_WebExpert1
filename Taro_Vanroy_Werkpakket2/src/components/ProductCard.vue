@@ -8,8 +8,7 @@ export default {
     return {
       products: jsonData,
       filteredProducts: jsonData,
-
-      itemsPerPage: 4,
+      itemsPerPage: 8,
       currentPage: 1,
       checkedFilters: {
         yearFilter1980to1990: false,
@@ -49,26 +48,18 @@ export default {
     checkedFilters: {
       handler: "applyFilters",
       deep: true,
+      immediate: true,
     },
   },
   methods: {
     getStockText(stock) {
       return `Stock: ${stock}`;
     },
-    nextPage() {
-      if (this.currentPage === this.totalPages) {
-        this.currentPage = 1;
-      } else {
-        this.currentPage++;
-      }
+
+    goToPage(pageNumber) {
+      this.currentPage = pageNumber;
     },
-    prevPage() {
-      if (this.currentPage === 1) {
-        this.currentPage = this.totalPages;
-      } else {
-        this.currentPage--;
-      }
-    },
+
     filterByReleaseYear(minYear, maxYear) {
       this.checkedFilters.yearFilter1980to1990 = minYear === 1980 && maxYear === 1990;
       this.checkedFilters.yearFilter1990to2000 = minYear === 1990 && maxYear === 2000;
@@ -82,6 +73,7 @@ export default {
     },
     applyFilters() {
       this.filteredProducts = this.products.filter(product => {
+
         const meetsYearFilter = (
             (!this.checkedFilters.yearFilter1980to1990 || (product.release_year >= 1980 && product.release_year <= 1990)) &&
             (!this.checkedFilters.yearFilter1990to2000 || (product.release_year > 1990 && product.release_year <= 2000)) &&
@@ -116,34 +108,34 @@ export default {
       <div class="filter-section">
         <h2>{{ titel1 }}</h2>
         <label>
-          <input type="checkbox" :checked="checkedFilters.yearFilter1980to1990" @change="filterByReleaseYear(1980, 1990)" />
+          <input type="checkbox" v-model="checkedFilters.yearFilter1980to1990" />
           {{ filter1 }}
         </label>
         <label>
-          <input type="checkbox" :checked="checkedFilters.yearFilter1990to2000" @change="filterByReleaseYear(1990, 2000)" />
+          <input type="checkbox"  v-model="checkedFilters.yearFilter1990to2000" />
           {{ filter2 }}
         </label>
         <label>
-          <input type="checkbox" :checked="checkedFilters.yearFilter2000plus" @change="filterByReleaseYear(2000, Infinity)" />
+          <input type="checkbox"  v-model="checkedFilters.yearFilter2000plus"  />
           {{ filter3 }}
         </label>
       </div>
       <div class="filter-section">
         <h2>{{ titel2 }}</h2>
         <label>
-          <input type="checkbox" :checked="checkedFilters.companyFilterNintendo" @change="filterByCompany('Nintendo')" />
+          <input type="checkbox"  v-model="checkedFilters.companyFilterNintendo" />
           {{ filter4 }}
         </label>
         <label>
-          <input type="checkbox" :checked="checkedFilters.companyFilterSega" @change="filterByCompany('Sega')" />
+          <input type="checkbox"  v-model="checkedFilters.companyFilterSega"  />
           {{ filter5 }}
         </label>
         <label>
-          <input type="checkbox" :checked="checkedFilters.companyFilterSony" @change="filterByCompany('Sony')" />
+          <input type="checkbox" v-model="checkedFilters.companyFilterSony"  />
           {{ filter6 }}
         </label>
         <label>
-          <input type="checkbox" :checked="checkedFilters.companyFilterOther" @change="filterByCompany('Other')" />
+          <input type="checkbox"  v-model="checkedFilters.companyFilterOther"  />
           {{ filter7 }}
         </label>
       </div>
@@ -153,7 +145,7 @@ export default {
         <li v-for="(product) in paginatedProducts" :key="product.id" class="product-item">
           <div class="product-info">
             <router-link :to="{ name: 'product-detail', params: { id: product.id } }">
-              <img :src="product.image" alt="Product Image" class="product-image"/></router-link>
+              <img :src="product.image" alt="Product Image" class="productt-image"/></router-link>
             <div class="product-details">
               <p>{{ product.name }}</p>
               <p class="stock">{{ getStockText(product.stock) }}</p>
@@ -163,15 +155,12 @@ export default {
           </div>
         </li>
       </ul>
-      <div class="pagination-buttons">
-        <button @click="prevPage" class="terug">{{ button2 }}</button>
-        <button @click="nextPage" class="volgende">{{ button3 }}</button>
-      </div>
+      <div class="page-numbers">
+        <button v-for="pageNumber in totalPages" :key="pageNumber" @click="goToPage(pageNumber)" :class="{ active: pageNumber === currentPage }">
+          {{ pageNumber }}
+        </button></div>
     </div>
   </div>
-
-  <!-- Quantity Popup -->
-
 
 </template>
 
@@ -199,13 +188,32 @@ export default {
   padding-left: 20px;
 }
 
+.page-numbers
+{
+  margin-left: 18rem;
+  margin-top: 2rem;
+}
+
+.page-numbers button
+{
+  width: 50px;
+  height: 50px;
+  color: white;
+  background: rgb(188, 91, 237);
+  background: linear-gradient(270deg, rgba(188, 91, 237, 1) 0%, rgba(112, 141, 255, 1) 100%, rgba(2, 0, 36, 1) 202124%);
+  border: 0;
+  border-radius: 10px;
+  margin: 2rem;
+
+}
+
 .product-lijst {
   list-style: none;
   padding: 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 20px; /* Adjust the gap between products as needed */
   margin-top: 3rem;
-  flex-wrap: wrap;
 }
 
 .product-item {
@@ -220,9 +228,9 @@ export default {
   text-align: center;
 }
 
-.product-image {
-  width: 300px;
-  height: 300px;
+.productt-image {
+  width: 150px;
+  height: 150px;
   border: 5px solid #b95ced;
   border-radius: 5px;
   padding: 15px;
@@ -240,24 +248,8 @@ export default {
   padding-top: 1rem;
 }
 
-.pagination-buttons {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-}
 
-.pagination-buttons button {
-  margin-right: 10px;
-  width: 15rem;
-  height: 3rem;
-  color: white;
-  background: rgb(188, 91, 237);
-  background: linear-gradient(270deg, rgba(188, 91, 237, 1) 0%, rgba(112, 141, 255, 1) 100%, rgba(2, 0, 36, 1) 202124%);
-  border: 0;
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
+
 
 .add-to-cart-button
 {
@@ -270,8 +262,8 @@ export default {
   border-radius: 10px;
   font-size: 20px;
   font-weight: bold;
-  margin-top: 10px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 600px)
@@ -300,12 +292,7 @@ export default {
     flex-direction: column;
   }
 
-.pagination-buttons
-{
-  margin-right: 50%;
-  flex-direction: column;
 
-}
 
 
 

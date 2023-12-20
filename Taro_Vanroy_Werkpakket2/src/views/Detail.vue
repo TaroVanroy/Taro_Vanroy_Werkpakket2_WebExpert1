@@ -5,8 +5,8 @@
     <div class="rechts">
       <h2>{{ product.name }}</h2>
       <p class="description">{{ product.description }}</p><br>
-      <p class="price">{{ prijs }} {{ product.price ? product.price.toFixed(2) : 'N/A' }}</p>
-      <p class="price-with-tax">{{ prijsBTW }}{{ product.price_with_tax ? product.price_with_tax.toFixed(2) : 'N/A' }}</p>
+      <p class="price">{{ prijs }} {{ euroteken }}{{ product.price ? product.price.toFixed(2) : 'N/A' }}</p>
+      <p class="price-with-tax">{{ prijsBTW }}{{ euroteken }}{{ product.price_with_tax ? product.price_with_tax.toFixed(2) : 'N/A' }}</p>
       <p class="stock">{{ Stock }} {{ product.stock }}</p><br>
       <p class="creator">{{ Bedrijf }} {{ product.creator }}</p>
       <p class="release-year">{{ Jaar }} {{ product.release_year }}</p><br>
@@ -39,7 +39,8 @@ export default {
       "Jaar": "Jaar van uitkomst: ",
       "Button1": "Toevoegen aan winkelmandje",
       "Button2": "Terug",
-      "Error": "Error: Product not found."
+      "Error": "Error: Product not found.",
+      "euroteken": "€"
 
 
     };

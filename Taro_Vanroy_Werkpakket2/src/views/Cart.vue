@@ -55,10 +55,8 @@ export default {
 
     const checkout = () => {
       if (!shopStore.isLoggedIn) {
-        // If not logged in, redirect to the login page
         router.push('/login');
       } else {
-        // If logged in, proceed with the checkout logic
         router.push('/Checkout');
       }
     };

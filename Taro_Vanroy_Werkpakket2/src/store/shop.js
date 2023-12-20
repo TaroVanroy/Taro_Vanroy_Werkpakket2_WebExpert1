@@ -1,4 +1,3 @@
-// shop.js
 import { defineStore } from 'pinia';
 
 export const useShopStore = defineStore('shop', {
@@ -9,7 +8,6 @@ export const useShopStore = defineStore('shop', {
         users: [
             { username: "Taro Vanroy", password: "password1", address: "Elfdelinie-straat 11 Hasselt" },
             { username: "Robin Braibant", password: "password2", address: "placeholder1" },
-            // Add more user objects as needed
         ],
     }),
     getters: {
