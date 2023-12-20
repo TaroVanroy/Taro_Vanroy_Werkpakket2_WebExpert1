@@ -272,6 +272,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px)

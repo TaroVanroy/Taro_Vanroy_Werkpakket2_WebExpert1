@@ -5,17 +5,17 @@
     <div class="rechts">
       <h2>{{ product.name }}</h2>
       <p class="description">{{ product.description }}</p><br>
-      <p class="price">Prijs: ${{ product.price ? product.price.toFixed(2) : 'N/A' }}</p>
-      <p class="price-with-tax">Prijs + BTW: ${{ product.price_with_tax ? product.price_with_tax.toFixed(2) : 'N/A' }}</p>
-      <p class="stock">Stock: {{ product.stock }}</p><br>
-      <p class="creator">Bedrijf: {{ product.creator }}</p>
-      <p class="release-year">Jaar van uitkomst: {{ product.release_year }}</p><br>
-      <button @click="addToCart(product)" class="add-to-cart-button" id="button2">Add to Cart</button>
-      <router-link :to="{ name: 'product-list' }" class="back-button">{{ button2 }}</router-link>
+      <p class="price">{{ prijs }} {{ product.price ? product.price.toFixed(2) : 'N/A' }}</p>
+      <p class="price-with-tax">{{ prijsBTW }}{{ product.price_with_tax ? product.price_with_tax.toFixed(2) : 'N/A' }}</p>
+      <p class="stock">{{ Stock }} {{ product.stock }}</p><br>
+      <p class="creator">{{ Bedrijf }} {{ product.creator }}</p>
+      <p class="release-year">{{ Jaar }} {{ product.release_year }}</p><br>
+      <button @click="addToCart(product)" class="add-to-cart-button" id="button2">{{ Button1 }}</button>
+      <router-link :to="{ name: 'product-list' }" class="back-button">{{ Button2 }}</router-link>
     </div>
   </div>
   <div v-else>
-    <p>Error: Product not found.</p>
+    <p>{{ Error }}</p>
   </div>
 </template>
 
@@ -33,6 +33,16 @@ export default {
   data() {
     return {
       product: null,
+      "prijs": "Prijs: ",
+      "prijsBTW": "Prijs + BTW: ",
+      "Stock": "Stock: ",
+      "Bedrijf": "Bedrijf: ",
+      "Jaar": "Jaar van uitkomst: ",
+      "Button1": "Toevoegen aan winkelmandje",
+      "Button2": "Terug",
+      "Error": "Error: Product not found."
+
+
     };
   },
   async created() {
