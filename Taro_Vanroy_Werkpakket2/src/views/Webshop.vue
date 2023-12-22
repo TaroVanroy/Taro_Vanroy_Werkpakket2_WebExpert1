@@ -1,7 +1,6 @@
 <script>
 
 import {defineComponent} from "vue";
-import Footer from "@/components/FooterComponent.vue";
 import ProductCard from "@/components/ProductCardComponent.vue";
 
 export default defineComponent({
@@ -16,7 +15,7 @@ export default defineComponent({
       "tussentitel": "Alle producten die wij aanbieden"
     }
   },
-  components: {Footer, ProductCard}
+  components: {ProductCard}
 })
 </script>
 

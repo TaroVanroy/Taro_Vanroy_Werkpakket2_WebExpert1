@@ -83,7 +83,8 @@ h1
 }
 
 .center{
-  position: absolute;
+  position: relative;
+  margin-top: 25rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

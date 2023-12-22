@@ -1,6 +1,6 @@
 <script>
 import Nav from '@/components/HeaderComponent.vue'
-
+import Footer from '@/components/FooterComponent.vue'
 
 export default {
   data() {
@@ -8,7 +8,8 @@ export default {
     }
   },
   components: {
-    Nav
+    Nav,
+    Footer
   }
 }
 </script>
@@ -19,6 +20,7 @@ export default {
 
   <router-view></router-view>
 
+  <Footer/>
 
 
 </template>
