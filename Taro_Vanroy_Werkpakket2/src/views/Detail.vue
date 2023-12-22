@@ -1,28 +1,10 @@
-<template>
-  <div class="detail-container" v-if="product"><div class="links">
-    <img v-if="product.image" :src="`/${product.image}`" alt="Product Image" class="product-image" />
-  </div>
-    <div class="rechts">
-      <h2>{{ product.name }}</h2>
-      <p class="description">{{ product.description }}</p><br>
-      <p class="price">{{ prijs }} {{ euroteken }}{{ product.price ? product.price.toFixed(2) : 'N/A' }}</p>
-      <p class="price-with-tax">{{ prijsBTW }}{{ euroteken }}{{ product.price_with_tax ? product.price_with_tax.toFixed(2) : 'N/A' }}</p>
-      <p class="stock">{{ Stock }} {{ product.stock }}</p><br>
-      <p class="creator">{{ Bedrijf }} {{ product.creator }}</p>
-      <p class="release-year">{{ Jaar }} {{ product.release_year }}</p><br>
-      <button @click="addToCart(product)" class="add-to-cart-button" id="button2">{{ Button1 }}</button>
-    </div>
-  </div>
-  <div v-else>
-    <p>{{ Error }}</p>
-  </div>
-</template>
-
 <script>
-import { useShopStore } from '@/store/shop.js';
 import jsonData from "@/assets/data.json";
+import { useShopStore } from '@/store/shop.js';
+
 
 export default {
+
   props: {
     id: {
       type: [Number, String],
@@ -33,7 +15,8 @@ export default {
     return {
       product: null,
       "prijs": "Prijs: ",
-      "prijsBTW": "Prijs + BTW: ",
+      "btw": "BTW: ",
+       "prijsbtw": "prijs + btw: ",
       "Stock": "Stock: ",
       "Bedrijf": "Bedrijf: ",
       "Jaar": "Jaar van uitkomst: ",
@@ -41,13 +24,13 @@ export default {
       "Button2": "Terug",
       "Error": "Error: Product not found.",
       "euroteken": "€"
-
-
     };
   },
+
   async created() {
     await this.fetchProductData();
   },
+
   methods: {
     async fetchProductData() {
       try {
@@ -66,6 +49,9 @@ export default {
     addToCart(product) {
       useShopStore().addToCart(product);
     },
+    getStockText(stock) {
+      return `Stock: ${stock}`;
+    },
   },
   watch: {},
   beforeRouteUpdate(to, from, next) {
@@ -74,6 +60,27 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="detail-container" v-if="product"><div class="links">
+    <img v-if="product.image" :src="`/${product.image}`" alt="Product Image" class="product-image" />
+  </div>
+    <div class="rechts">
+      <h2>{{ product.name }}</h2>
+      <p class="description">{{ product.description }}</p><br>
+      <p class="price">{{ prijs }} {{ euroteken }}{{ product.price ? product.price.toFixed(2) : 'N/A' }}</p>
+      <p class="tax">{{ btw }}{{ euroteken }}{{ product.btw ? product.btw.toFixed(2) : 'N/A' }}</p>
+      <p class="prijsbtw">{{ prijsbtw }}{{ euroteken }}{{ (product.price + product.btw).toFixed(2) }}</p>
+      <p class="stock">{{ getStockText(product.stock) }}</p><br>
+      <p class="creator">{{ Bedrijf }} {{ product.creator }}</p>
+      <p class="release-year">{{ Jaar }} {{ product.release_year }}</p><br>
+      <button @click="addToCart(product)" class="add-to-cart-button" id="button2">{{ Button1 }}</button>
+    </div>
+  </div>
+  <div v-else>
+    <p>{{ Error }}</p>
+  </div>
+</template>
 
 <style>
 .detail-container
@@ -109,6 +116,7 @@ export default {
   width: 12rem;
   font-size: 16px;
 }
+
 
 
 @media screen and (max-width: 600px) {

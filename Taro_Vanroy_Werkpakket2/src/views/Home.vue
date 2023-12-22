@@ -85,8 +85,8 @@ export default {
 {
   font-size: 75px;
   float: right;
-  padding-right: 10.6rem;
-  padding-top: 9rem;
+  padding-right: 15.5rem;
+  padding-top: 11rem;
 }
 
 #introductie p
@@ -94,7 +94,7 @@ export default {
   font-size: 25px;
   float: right;
   padding-right: 9.5rem;
-  margin-top: -10rem;
+  margin-top: -11rem;
   width: 50%;
 }
 

@@ -28,9 +28,7 @@ export default {
       "filter5": "Sega",
       "filter6": "Sony",
       "filter7": "Andere",
-      "button1": "Add to cart",
-      "button2": "Terug",
-      "button3": "Volgende",
+      "button1": "toevoegen aan winkelmandje",
     };
   },
   computed: {
@@ -60,17 +58,6 @@ export default {
       this.currentPage = pageNumber;
     },
 
-    filterByReleaseYear(minYear, maxYear) {
-      this.checkedFilters.yearFilter1980to1990 = minYear === 1980 && maxYear === 1990;
-      this.checkedFilters.yearFilter1990to2000 = minYear === 1990 && maxYear === 2000;
-      this.checkedFilters.yearFilter2000plus = minYear === 2000 && maxYear === Infinity;
-    },
-    filterByCompany(company) {
-      this.checkedFilters.companyFilterNintendo = company === 'Nintendo';
-      this.checkedFilters.companyFilterSega = company === 'Sega';
-      this.checkedFilters.companyFilterSony = company === 'Sony';
-      this.checkedFilters.companyFilterOther = company === 'Other';
-    },
     applyFilters() {
       this.filteredProducts = this.products.filter(product => {
 
@@ -96,8 +83,6 @@ export default {
 
       useShopStore().addToCart(product);
     },
-
-
   }
 };
 </script>
@@ -108,34 +93,34 @@ export default {
       <div class="filter-section">
         <h2>{{ titel1 }}</h2>
         <label>
-          <input type="checkbox" v-model="checkedFilters.yearFilter1980to1990" />
+          <input type="checkbox" v-model="checkedFilters.yearFilter1980to1990"/>
           {{ filter1 }}
         </label>
         <label>
-          <input type="checkbox"  v-model="checkedFilters.yearFilter1990to2000" />
+          <input type="checkbox"  v-model="checkedFilters.yearFilter1990to2000"/>
           {{ filter2 }}
         </label>
         <label>
-          <input type="checkbox"  v-model="checkedFilters.yearFilter2000plus"  />
+          <input type="checkbox"  v-model="checkedFilters.yearFilter2000plus"/>
           {{ filter3 }}
         </label>
       </div>
       <div class="filter-section">
         <h2>{{ titel2 }}</h2>
         <label>
-          <input type="checkbox"  v-model="checkedFilters.companyFilterNintendo" />
+          <input type="checkbox"  v-model="checkedFilters.companyFilterNintendo"/>
           {{ filter4 }}
         </label>
         <label>
-          <input type="checkbox"  v-model="checkedFilters.companyFilterSega"  />
+          <input type="checkbox"  v-model="checkedFilters.companyFilterSega"/>
           {{ filter5 }}
         </label>
         <label>
-          <input type="checkbox" v-model="checkedFilters.companyFilterSony"  />
+          <input type="checkbox" v-model="checkedFilters.companyFilterSony"/>
           {{ filter6 }}
         </label>
         <label>
-          <input type="checkbox"  v-model="checkedFilters.companyFilterOther"  />
+          <input type="checkbox"  v-model="checkedFilters.companyFilterOther"/>
           {{ filter7 }}
         </label>
       </div>
@@ -260,7 +245,7 @@ export default {
   background: linear-gradient(270deg, rgba(188, 91, 237, 1) 0%, rgba(112, 141, 255, 1) 100%, rgba(2, 0, 36, 1) 202124%);
   border: 0;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
@@ -296,10 +281,18 @@ export default {
 
 
 
-  .pagination-buttons button
+  .page-numbers
   {
-    margin-top: 16px;
-    margin-left: -40%;
+    margin-left: -22%;
+  }
+
+  .page-numbers button
+  {
+    margin: 1rem;
+  }
+
+  .product-lijst {
+    grid-template-columns: repeat(1, 1fr);
   }
 
 }

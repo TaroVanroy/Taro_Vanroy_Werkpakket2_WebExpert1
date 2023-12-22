@@ -6,7 +6,7 @@
     "description": "Iconische 8-bit gaming console van de jaren 80",
     "image": "src/assets/nes.png",
     "price": 49.99,
-    "price_with_tax": 59.99,
+    "btw": 10,
     "stock": 10,
     "creator": "Nintendo",
     "release_year": 1985
@@ -17,7 +17,7 @@
     "description": "16-bit klassieke console bekend voor hun geweldige games",
     "image": "src/assets/snes.png",
     "price": 59.99,
-    "price_with_tax": 69.99,
+    "btw": 10,
     "stock": 8,
     "creator": "Nintendo",
     "release_year": 1990
@@ -28,7 +28,7 @@
     "description": "Sega's 16-bit answer antwoord op de SNES met Sonic the Hedgehog",
     "image": "src/assets/genesis.png",
     "price": 54.99,
-    "price_with_tax": 64.99,
+    "btw": 10,
     "stock": 12,
     "creator": "Sega",
     "release_year": 1988
@@ -39,7 +39,7 @@
     "description": "Revolutionaire 32-bit console die gaming veranderd heeft.",
     "image": "src/assets/ps1.png",
     "price": 39.99,
-    "price_with_tax": 47.99,
+    "btw": 8,
     "stock": 5,
     "creator": "Sony",
     "release_year": 1994
@@ -50,7 +50,7 @@
     "description": "64-bit console bekend voor super mario 64",
     "image": "src/assets/n64.png",
     "price": 69.99,
-    "price_with_tax": 83.99,
+    "btw": 15,
     "stock": 7,
     "creator": "Nintendo",
     "release_year": 1996
@@ -61,7 +61,7 @@
     "description": "Sega's CD-gebaseerde console met unieke games.",
     "image": "src/assets/saturn.png",
     "price": 74.99,
-    "price_with_tax": 89.99,
+    "btw": 15,
     "stock": 3,
     "creator": "Sega",
     "release_year": 1995
@@ -72,7 +72,7 @@
     "description": "Best verkochte console ooit met een gigantische gaming bibliotheek",
     "image": "src/assets/ps2.png",
     "price": 49.99,
-    "price_with_tax": 59.99,
+    "btw": 10,
     "stock": 15,
     "creator": "Sony",
     "release_year": 2000
@@ -83,7 +83,7 @@
     "description": "Compacte console met fijne en innovatieve games",
     "image": "src/assets/gamecube.png",
     "price": 64.99,
-    "price_with_tax": 77.99,
+    "btw": 13,
     "stock": 6,
     "creator": "Nintendo",
     "release_year": 2001
@@ -94,7 +94,7 @@
     "description": "Innovatieve console met online gaming ondersteuning.",
     "image": "src/assets/dreamcast.png",
     "price": 79.99,
-    "price_with_tax": 94.99,
+    "btw": 10,
     "stock": 4,
     "creator": "Sega",
     "release_year": 1999
@@ -105,7 +105,7 @@
     "description": "Blu-ray-enabled console met high-quality graphics.",
     "image": "src/assets/ps3.png",
     "price": 89.99,
-    "price_with_tax": 107.99,
+    "btw": 16,
     "stock": 9,
     "creator": "Sony",
     "release_year": 2006
@@ -116,7 +116,7 @@
     "description": "Microsoft's begin in de console market",
     "image": "src/assets/xbox.png",
     "price": 64.99,
-    "price_with_tax": 77.99,
+    "btw": 10,
     "stock": 5,
     "creator": "Microsoft",
     "release_year": 2001
@@ -127,7 +127,7 @@
     "description": "Innovative motion-gecontrolleerde gaming console.",
     "image": "src/assets/wii.png",
     "price": 59.99,
-    "price_with_tax": 71.99,
+    "btw": 12,
     "stock": 11,
     "creator": "Nintendo",
     "release_year": 2006
@@ -139,7 +139,7 @@
     "description": "Legendarische console bekend voor klassieke arcade games",
     "image": "src/assets/atari2600.png",
     "price": 29.99,
-    "price_with_tax": 35.99,
+    "btw": 5,
     "stock": 2,
     "creator": "Atari",
     "release_year": 1977
@@ -150,7 +150,7 @@
     "description": "Sega's 8-bit console met een diverse game bibliotheek",
     "image": "src/assets/mastersystem.png",
     "price": 44.99,
-    "price_with_tax": 53.99,
+    "btw": 10,
     "stock": 3,
     "creator": "Sega",
     "release_year": 1986
@@ -164,7 +164,7 @@
     "description": "The Nintendo nieuwste generatie van draagbare consoles",
     "image": "src/assets/ds.png",
     "price": 79.99,
-    "price_with_tax": 95.99,
+    "btw": 15,
     "stock": 8,
     "creator": "Nintendo",
     "release_year": 2005
@@ -176,7 +176,7 @@
     "description": "Atari's 2nd-gen console met analoge joysticks en verbeterde graphics",
     "image": "src/assets/atari5200.png",
     "price": 69.99,
-    "price_with_tax": 83.99,
+    "btw": 15,
     "stock": 4,
     "creator": "Atari",
     "release_year": 1982
@@ -187,7 +187,7 @@
     "description": "Populaire thuis computer bekend voor gaming en productiviteit.",
     "image": "src/assets/c64.png",
     "price": 49.99,
-    "price_with_tax": 59.99,
+    "btw": 10,
     "stock": 6,
     "creator": "Commodore",
     "release_year": 1982
@@ -199,7 +199,7 @@
     "description": "De eerste thuis video console ooit",
     "image": "src/assets/odyssey.png",
     "price": 149.99,
-    "price_with_tax": 179.99,
+    "btw": 30,
     "stock": 1,
     "creator": "Magnavox",
     "release_year": 1972
@@ -211,7 +211,7 @@
     "description": "64-bit console bekend voor Alien vs. Predator game.",
     "image": "src/assets/jaguar.png",
     "price": 89.99,
-    "price_with_tax": 107.99,
+    "btw": 20,
     "stock": 3,
     "creator": "Atari",
     "release_year": 1993
@@ -222,7 +222,7 @@
     "description": "Sega's CD add-on voor de Genesis met FMV games.",
     "image": "src/assets/segacd.png",
     "price": 79.99,
-    "price_with_tax": 95.99,
+    "btw": 15,
     "stock": 2,
     "creator": "Sega",
     "release_year": 1991

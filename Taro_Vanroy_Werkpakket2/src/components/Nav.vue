@@ -46,7 +46,7 @@ export default {
 
 .navigatie {
   padding-top: 1rem;
-  text-align: left;
+  text-align: right;
   background-color: #718cfe;
   height: 3.5rem;
   width: 100%;

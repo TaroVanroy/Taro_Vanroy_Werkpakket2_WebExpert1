@@ -10,9 +10,13 @@
             <br />
             <p>{{ item.description }}</p>
             <br />
-            <p>{{ geenBTW }} {{ item.price }}€</p>
+            <p>{{ normaleprijs }} {{ item.price }}€</p>
             <br />
-            <p>{{ totaalprijs }} {{ item.price_with_tax }}€</p>
+            <p>{{ normalebtw }} {{ item.btw }}€</p>
+            <br />
+            <p>{{ btw }} {{ totalBTW }}€</p>
+            <br />
+            <p>{{ totaalprijs }} {{ totalPrice ? totalPrice.toFixed(2) : 'N/A'}}€</p>
             <br />
             <p class="item-quantity">{{hoeveelheid}} {{ item.quantity }}</p>
 
@@ -41,6 +45,8 @@ export default {
     const shopStore = useShopStore();
     const cart = computed(() => shopStore.cart);
 
+    const { totalPrice, totalBTW } = shopStore;
+
     const removeFromCart = (productId) => {
       shopStore.removeItemFromCart(productId);
     };
@@ -67,14 +73,18 @@ export default {
       incrementQuantity,
       decrementQuantity,
       checkout,
+      totalPrice,
+      totalBTW,
       "titel": "Uw winkelmandje:",
-      "geenBTW": "Prijs zonder btw: ",
-      "totaalprijs": "Prijs met btw: ",
+      "btw": "totale BTW: ",
+      "totaalprijs": "Totale prijs: ",
       "hoeveelheid": "Hoeveelheid: ",
       "plus": "+",
       "min": "-",
       "button1": "Verwijder",
-      "button2": "Checkout"
+      "button2": "Checkout",
+      "normaleprijs": "prijs voor 1 product: ",
+      "normalebtw": "btw voor 1 product:  "
 
     };
   },

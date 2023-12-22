@@ -12,11 +12,17 @@ export const useShopStore = defineStore('shop', {
     }),
     getters: {
         totalPrice(state) {
-            const total = state.cart.reduce((totalPrice, item) => totalPrice + (item.quantity * item.price_with_tax), 0);
+            const total = state.cart.reduce((totalPrice, item) => totalPrice + (item.quantity * (item.price + item.btw)), 0);
             return parseFloat(total.toFixed(2));
         },
+
+        totalPriceNoBTW(state) {
+            const total = state.cart.reduce((totalPrice, item) => totalPrice + (item.quantity * item.price), 0);
+            return parseFloat(total.toFixed(2));
+        },
+
         totalBTW(state) {
-            const totalVAT = state.cart.reduce((totalBTW, item) => totalBTW + (item.quantity * (item.price_with_tax - item.price)), 0);
+            const totalVAT = state.cart.reduce((totalBTW, item) => totalBTW + (item.quantity * item.btw), 0);
             return parseFloat(totalVAT.toFixed(2));
         },
         popularProducts(state) {
@@ -33,53 +39,84 @@ export const useShopStore = defineStore('shop', {
                 const data = await response.json();
                 this.setProducts(data);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('Error met producten op te halen:', error);
             }
         },
-
-
 
         setProducts(products) {
             this.products = products;
         },
         addToCart(product) {
-            const quantityString = prompt(`How many ${product.name} would you like to add to your cart?`, '1');
-            const quantity = parseInt(quantityString);
-
-            if (isNaN(quantity) || quantity <= 0) {
-                alert('Please enter a valid quantity.');
+            // Check if the product is out of stock
+            if (product.stock === 0) {
+                alert(`Sorry, ${product.name} is niet meer beschikbaar.`);
                 return;
             }
 
-            const isProductInCart = this.cart.some(item => item.id === product.id);
+            // Prompt the user for the quantity
+            const quantityString = prompt(`Hoeveel van ${product.name} zou je willen toevoegen aan je winkelmandje?`, '1');
+            const quantity = parseInt(quantityString);
 
-            if (isProductInCart) {
-                const existingProduct = this.cart.find(item => item.id === product.id);
-
-                // Check if the new quantity exceeds the available stock
-                if (existingProduct.quantity + quantity > product.stock) {
-                    alert(`Sorry, there are only ${product.stock} units available in stock.`);
-                    return;
-                }
-
-                existingProduct.quantity += quantity;
-            } else {
-                // Check if the requested quantity exceeds the available stock
-                if (quantity > product.stock) {
-                    alert(`Sorry, there are only ${product.stock} units available in stock.`);
-                    return;
-                }
-
-                this.cart.push({ ...product, quantity });
+            if (isNaN(quantity) || quantity <= 0) {
+                alert('Voeg een geldige hoeveelheid toe.');
+                return;
             }
 
-            // Display success message after adding the product to the cart
-            alert('Product toegevoegd aan winkelmandje!');
+            // Check if the requested quantity exceeds the available stock
+            if (quantity > product.stock) {
+                const availableQuantity = product.stock;
+
+                const adjustedQuantityString = prompt(`Sorry, Er zijn maar${availableQuantity} units verkrijgbaar in stock. Hoeveel zou je er willen toevoegen aan je winkelmandje?`, '1');
+                const adjustedQuantity = parseInt(adjustedQuantityString);
+
+                if (isNaN(adjustedQuantity) || adjustedQuantity <= 0) {
+                    alert('Voeg een geldige hoeveelheid toe.');
+                    return;
+                }
+
+                // Adjust quantity based on available stock
+                this.cart.push({ ...product, quantity: adjustedQuantity });
+
+                // Update the stock in the products array
+                product.stock -= adjustedQuantity;
+
+                // Display success message after adding the product to the cart
+                alert('Product toegevoegd aan winkelmandje!');
+            } else {
+                const isProductInCart = this.cart.some(item => item.id === product.id);
+
+                if (isProductInCart) {
+                    const existingProduct = this.cart.find(item => item.id === product.id);
+
+                    // Check if the new quantity exceeds the available stock
+                    if (existingProduct.quantity + quantity > existingProduct.stock) {
+                        alert(`Sorry, Er zijn maar ${existingProduct.stock} units verkrijgbaar in stock.`);
+                        return;
+                    }
+
+                    existingProduct.quantity += quantity;
+                } else {
+                    this.cart.push({ ...product, quantity });
+
+                    // Update the stock in the products array
+                    product.stock -= quantity;
+                }
+
+                // Display success message after adding the product to the cart
+                alert('Product toegevoegd aan winkelmandje!');
+            }
         },
         removeItemFromCart(productId) {
             const index = this.cart.findIndex(item => item.id === productId);
             if (index !== -1) {
+                const removedProduct = this.cart[index];
                 this.cart.splice(index, 1);
+
+                // Restore stock when removing item from the cart
+                const originalProduct = this.products.find(product => product.id === removedProduct.id);
+                if (originalProduct) {
+                    originalProduct.stock += removedProduct.quantity;
+                }
             }
         },
         incrementItemQuantity(productId) {
@@ -93,6 +130,7 @@ export const useShopStore = defineStore('shop', {
                 }
 
                 product.quantity += 1;
+                product.stock -= 1;
             }
         },
 
@@ -101,6 +139,7 @@ export const useShopStore = defineStore('shop', {
 
             if (product && product.quantity > 1) {
                 product.quantity -= 1;
+                product.stock += 1;
             }
         },
         setLoggedInUser(user) {
@@ -108,13 +147,10 @@ export const useShopStore = defineStore('shop', {
         },
         checkout() {
             if (this.isLoggedIn) {
-                // Implement your checkout logic here
                 console.log('Checkout successful!');
             } else {
-                // If not logged in, show a popup or redirect to the login page
                 alert('Please log in to proceed with checkout.');
-                // Optionally, you can redirect to the login page
-                // this.$router.push('/login');
+
             }
         },
     },
@@ -131,3 +167,5 @@ export const useCheckoutStore = defineStore('checkout', {
         },
     }
 });
+
+

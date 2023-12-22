@@ -26,6 +26,8 @@
         </li>
       </ul>
       <br />
+      <p>{{ prijszonderbtw }} {{ totalPriceNoBTW }}{{ euroteken }}</p>
+      <br />
       <p>{{ extraBTW }} {{ totalBTW }}{{ euroteken }}</p>
       <br />
       <p>{{ Totaleprijs }} {{ totalPrice }}{{ euroteken }}</p>
@@ -48,7 +50,7 @@ export default defineComponent({
     const shopStore = useShopStore();
     const router = useRouter();
 
-    const { cart, totalPrice, totalBTW } = shopStore;
+    const { cart, totalPrice, totalBTW, totalPriceNoBTW } = shopStore;
 
     // Set initial values for shippingAddress and useDifferentBilling
     const shippingAddress = ref(checkoutStore.shippingAddress || (shopStore.isLoggedIn ? shopStore.loggedInUser.address : ''));
@@ -71,6 +73,7 @@ export default defineComponent({
       cart,
       totalPrice,
       totalBTW,
+      totalPriceNoBTW,
       "hoofdtitel": "Checkout",
       "adres1": "Leveringsadres: ",
       "adres2": "Gebruik ander adres: ",
@@ -80,7 +83,8 @@ export default defineComponent({
       "extraBTW": "BTW: ",
       "Totaleprijs": "Totale prijs + BTW: ",
       "euroteken": "€",
-      "button": "Bestel producten"
+      "button": "Bestel producten",
+      "prijszonderbtw": "Prijs: "
     };
   },
 });

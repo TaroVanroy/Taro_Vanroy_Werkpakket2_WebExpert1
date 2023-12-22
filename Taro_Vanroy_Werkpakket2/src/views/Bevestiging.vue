@@ -7,7 +7,7 @@ export default defineComponent({
     const checkoutStore = useCheckoutStore();
     const shopStore = useShopStore();
 
-    const { cart, totalPrice, totalBTW } = shopStore;
+    const { cart, totalPrice, totalBTW, totalPriceNoBTW } = shopStore;
 
     const shippingAddress = checkoutStore.shippingAddress;
     const useDifferentBilling = checkoutStore.useDifferentBilling;
@@ -20,6 +20,7 @@ export default defineComponent({
       totalPrice,
       totalBTW,
       useDifferentBilling,
+      totalPriceNoBTW,
       "titel1": "Bevestiging van bestelling",
       "titel2": "Leveringsadres",
       "titel3": "Betalingsadres",
@@ -28,7 +29,8 @@ export default defineComponent({
       "Totaleprijs": "Totale prijs + BTW: ",
       "euroteken": "€",
       "melding": "Bedankt voor uw aankoop!",
-      "button": "terug naar home pagina"
+      "button": "terug naar home pagina",
+      "prijszonderbtw": "Prijs: "
     };
   },
 });
@@ -46,6 +48,8 @@ export default defineComponent({
           {{ item.name }} - {{ item.quantity }} x {{ item.price }}
         </li>
       </ul>
+      <br />
+      <p>{{ prijszonderbtw }} {{ totalPriceNoBTW }}{{ euroteken }}</p>
       <br />
       <p>{{extraBTW}} {{ totalBTW }}{{euroteken}}</p>
       <br />

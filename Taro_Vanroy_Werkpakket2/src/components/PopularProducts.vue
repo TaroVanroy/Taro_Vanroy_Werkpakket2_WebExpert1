@@ -47,7 +47,6 @@ export default {
             <p>{{ product.name }}</p>
             <p class="stock">{{ getStockText(product.stock) }}</p>
             <button @click="addToCart(product)" class="add-to-cart-button">{{ knop }}</button>
-
           </div>
         </div>
       </li>
