@@ -1,29 +1,3 @@
-<template>
-  <div class="center">
-    <h1 v-if="loggedInUser">{{ intro }} {{ loggedInUser.username }}!</h1>
-    <h1 v-else>{{ button1 }}</h1>
-    <form v-if="!loggedInUser" @submit.prevent="login">
-      <div class="txt_field">
-        <label for="naam"></label>
-        <input v-model="username" type="text" id="naam" required>
-        <span></span>
-        <label>{{ titel1 }}</label>
-      </div>
-      <div class="txt_field">
-        <label for="wachtwoord"></label>
-        <input v-model="password" type="password" id="wachtwoord" required>
-        <span></span>
-        <label>{{ titel2 }}</label>
-      </div>
-      <div class="pass">{{ titel3 }}</div>
-      <input type="submit" value="Login">
-    </form>
-    <div id="logout">
-      <button v-if="loggedInUser" @click="logout" class="uitloggen">{{ button2 }}</button>
-    </div>
-  </div>
-</template>
-
 <script>
 import { useShopStore } from '@/store/shop.js';
 
@@ -67,6 +41,32 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="center">
+    <h1 v-if="loggedInUser">{{ intro }} {{ loggedInUser.username }}!</h1>
+    <h1 v-else>{{ button1 }}</h1>
+    <form v-if="!loggedInUser" @submit.prevent="login">
+      <div class="txt_field">
+        <label for="naam"></label>
+        <input v-model="username" type="text" id="naam" required>
+        <span></span>
+        <label>{{ titel1 }}</label>
+      </div>
+      <div class="txt_field">
+        <label for="wachtwoord"></label>
+        <input v-model="password" type="password" id="wachtwoord" required>
+        <span></span>
+        <label>{{ titel2 }}</label>
+      </div>
+      <div class="pass">{{ titel3 }}</div>
+      <input type="submit" value="Login">
+    </form>
+    <div id="logout">
+      <button v-if="loggedInUser" @click="logout" class="uitloggen">{{ button2 }}</button>
+    </div>
+  </div>
+</template>
 
 <style>
 *

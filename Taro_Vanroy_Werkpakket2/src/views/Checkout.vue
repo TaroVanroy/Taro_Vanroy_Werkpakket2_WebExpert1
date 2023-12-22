@@ -1,44 +1,3 @@
-<template>
-  <div class="checkout-container">
-    <h2>{{ hoofdtitel }}</h2>
-
-    <div class="shipping-info">
-      <h3>{{ adres1 }}</h3><br>
-      <label for="shippingAddress">{{ adres3 }}</label>
-      <input v-model="shippingAddress" type="text" id="shippingAddress" />
-      <br /><br>
-      <label>
-        <input type="checkbox" v-model="useDifferentBilling" />
-        {{ adres2 }}<br>
-      </label><br>
-
-      <form v-if="useDifferentBilling">
-        <label for="billingAddress">{{ adres4 }}</label>
-        <input type="text" v-model="billingAddress" />
-      </form><br>
-    </div>
-
-    <div class="order-summary">
-      <h3>{{ titel2 }}</h3>
-      <ul>
-        <li v-for="item in cart" :key="item.id">
-          {{ item.name }} - {{ item.quantity }} x {{ item.price }}
-        </li>
-      </ul>
-      <br />
-      <p>{{ prijszonderbtw }} {{ totalPriceNoBTW }}{{ euroteken }}</p>
-      <br />
-      <p>{{ extraBTW }} {{ totalBTW }}{{ euroteken }}</p>
-      <br />
-      <p>{{ Totaleprijs }} {{ totalPrice }}{{ euroteken }}</p>
-    </div>
-
-    <form @submit.prevent="completeCheckout">
-      <button type="submit">{{ button }}</button>
-    </form>
-  </div>
-</template>
-
 <script>
 import { defineComponent, ref } from 'vue';
 import { useShopStore, useCheckoutStore } from '@/store/shop.js';
@@ -89,6 +48,49 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="checkout-container">
+    <h2>{{ hoofdtitel }}</h2>
+
+    <div class="shipping-info">
+      <h3>{{ adres1 }}</h3><br>
+      <label for="shippingAddress">{{ adres3 }}</label>
+      <input v-model="shippingAddress" type="text" id="shippingAddress" />
+      <br /><br>
+      <label>
+        <input type="checkbox" v-model="useDifferentBilling" />
+        {{ adres2 }}<br>
+      </label><br>
+
+      <form v-if="useDifferentBilling">
+        <label for="billingAddress">{{ adres4 }}</label>
+        <input type="text" v-model="billingAddress" />
+      </form><br>
+    </div>
+
+    <div class="order-summary">
+      <h3>{{ titel2 }}</h3>
+      <ul>
+        <li v-for="item in cart" :key="item.id">
+          {{ item.name }} - {{ item.quantity }} x {{ item.price }}
+        </li>
+      </ul>
+      <br />
+      <p>{{ prijszonderbtw }} {{ totalPriceNoBTW }}{{ euroteken }}</p>
+      <br />
+      <p>{{ extraBTW }} {{ totalBTW }}{{ euroteken }}</p>
+      <br />
+      <p>{{ Totaleprijs }} {{ totalPrice }}{{ euroteken }}</p>
+    </div>
+
+    <form @submit.prevent="completeCheckout">
+      <button type="submit">{{ button }}</button>
+    </form>
+  </div>
+</template>
+
+
 
 <style scoped>
 .checkout-container {

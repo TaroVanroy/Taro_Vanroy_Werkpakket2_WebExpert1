@@ -1,8 +1,8 @@
 <script>
 import { onMounted } from 'vue';
 import { useShopStore } from '@/store/shop.js';
-import PopularProducts from "@/components/PopularProducts.vue";
-import Footer from "@/components/Footer.vue";
+import PopularProducts from "@/components/PopularProductsComponent.vue";
+import Footer from "@/components/FooterComponent.vue";
 
 export default {
   setup() {

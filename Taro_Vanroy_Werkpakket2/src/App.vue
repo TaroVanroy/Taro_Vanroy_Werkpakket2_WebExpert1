@@ -1,6 +1,5 @@
 <script>
-import Nav from '@/components/Nav.vue'
-import Footer from '@/components/Footer.vue'
+import Nav from '@/components/HeaderComponent.vue'
 
 
 export default {
@@ -9,8 +8,7 @@ export default {
     }
   },
   components: {
-    Nav,
-    Footer,
+    Nav
   }
 }
 </script>

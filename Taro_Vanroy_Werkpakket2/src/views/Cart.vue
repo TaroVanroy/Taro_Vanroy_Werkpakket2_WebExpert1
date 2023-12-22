@@ -1,40 +1,3 @@
-<template>
-  <div class="cart-container">
-    <h2>{{ titel }}</h2>
-    <ul class="cart-items">
-      <li v-for="item in cart" :key="item.id" class="cart-item">
-        <div class="cart-item-info">
-          <img :src="item.image" alt="Product Image" class="cart-item-image" />
-          <div class="cart-item-details">
-            <p>{{ item.name }}</p>
-            <br />
-            <p>{{ item.description }}</p>
-            <br />
-            <p>{{ normaleprijs }} {{ item.price }}€</p>
-            <br />
-            <p>{{ normalebtw }} {{ item.btw }}€</p>
-            <br />
-            <p>{{ btw }} {{ totalBTW }}€</p>
-            <br />
-            <p>{{ totaalprijs }} {{ totalPrice ? totalPrice.toFixed(2) : 'N/A'}}€</p>
-            <br />
-            <p class="item-quantity">{{hoeveelheid}} {{ item.quantity }}</p>
-
-            <div class="quantity-buttons">
-              <button @click="incrementQuantity(item.id)">{{plus}}</button>
-              <button @click="decrementQuantity(item.id)">{{min}}</button>
-            </div>
-            <br />
-            <button @click="removeFromCart(item.id)">{{button1}}</button>
-          </div>
-        </div>
-      </li>
-    </ul>
-
-    <button v-if="cart.length > 0" @click="checkout" class="checkout-button">{{button2}}</button>
-  </div>
-</template>
-
 <script>
 import { computed } from 'vue';
 import { useShopStore } from '@/store/shop.js';
@@ -90,6 +53,46 @@ export default {
   },
 };
 </script>
+
+
+<template>
+  <div class="cart-container">
+    <h2>{{ titel }}</h2>
+    <ul class="cart-items">
+      <li v-for="item in cart" :key="item.id" class="cart-item">
+        <div class="cart-item-info">
+          <img :src="item.image" alt="Product Image" class="cart-item-image" />
+          <div class="cart-item-details">
+            <p>{{ item.name }}</p>
+            <br />
+            <p>{{ item.description }}</p>
+            <br />
+            <p>{{ normaleprijs }} {{ item.price }}€</p>
+            <br />
+            <p>{{ normalebtw }} {{ item.btw }}€</p>
+            <br />
+            <p>{{ btw }} {{ totalBTW }}€</p>
+            <br />
+            <p>{{ totaalprijs }} {{ totalPrice ? totalPrice.toFixed(2) : 'N/A'}}€</p>
+            <br />
+            <p class="item-quantity">{{hoeveelheid}} {{ item.quantity }}</p>
+
+            <div class="quantity-buttons">
+              <button @click="incrementQuantity(item.id)">{{plus}}</button>
+              <button @click="decrementQuantity(item.id)">{{min}}</button>
+            </div>
+            <br />
+            <button @click="removeFromCart(item.id)">{{button1}}</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <button v-if="cart.length > 0" @click="checkout" class="checkout-button">{{button2}}</button>
+  </div>
+</template>
+
+
 
 <style scoped>
 .cart-container {

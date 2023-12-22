@@ -1,8 +1,8 @@
 <script>
 
 import {defineComponent} from "vue";
-import Footer from "@/components/Footer.vue";
-import ProductCard from "@/components/ProductCard.vue";
+import Footer from "@/components/FooterComponent.vue";
+import ProductCard from "@/components/ProductCardComponent.vue";
 
 export default defineComponent({
 
